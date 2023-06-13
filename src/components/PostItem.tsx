@@ -1,6 +1,6 @@
 import { Component } from "solid-js";
 import Markdown from "./Markdown";
-import { Post } from "~/utils/api";
+import { Post } from "../utils/api";
 
 interface PostItemProps {
   post: Post;
