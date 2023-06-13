@@ -1,7 +1,7 @@
 // @refresh reload
+import { QueryClient, QueryClientProvider } from "@tanstack/solid-query";
 import { Suspense } from "solid-js";
 import {
-  useLocation,
   A,
   Body,
   ErrorBoundary,
@@ -13,37 +13,53 @@ import {
   Scripts,
   Title,
 } from "solid-start";
+import Footer from "./components/Footer";
 import "./root.css";
+import Sidebar from "./components/Sidebar";
+
+const queryClient = new QueryClient();
 
 export default function Root() {
-  const location = useLocation();
-  const active = (path: string) =>
-    path == location.pathname
-      ? "border-sky-600"
-      : "border-transparent hover:border-sky-600";
   return (
-    <Html lang="en">
+    <Html lang="en" data-theme="cupcake">
       <Head>
-        <Title>SolidStart - With TailwindCSS</Title>
+        <Title>Thoughtbank Blog</Title>
         <Meta charset="utf-8" />
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta name="description" content="Thoughtbank Blog" />
       </Head>
       <Body>
         <Suspense>
           <ErrorBoundary>
-            <nav class="bg-sky-800">
-              <ul class="container flex items-center p-3 text-gray-200">
-                <li class={`border-b-2 ${active("/")} mx-1.5 sm:mx-6`}>
-                  <A href="/">Home</A>
-                </li>
-                <li class={`border-b-2 ${active("/about")} mx-1.5 sm:mx-6`}>
-                  <A href="/about">About</A>
-                </li>
-              </ul>
-            </nav>
-            <Routes>
-              <FileRoutes />
-            </Routes>
+            <QueryClientProvider client={queryClient}>
+              <nav class="navbar bg-primary text-primary-content">
+                <div class="flex-1">
+                  <A class="btn btn-ghost normal-case text-xl" href="/">
+                    Thoughtbank
+                  </A>
+                </div>
+                <div class="flex-none gap-2 mr-1">
+                  <div class="form-control">
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      class="input input-bordered w-24 md:w-auto"
+                    />
+                  </div>
+                </div>
+              </nav>
+              <main class="md:container md:mx-auto flex flex-wrap justify-center py-6">
+                <section class="w-full md:w-fit px-3">
+                  <Routes>
+                    <FileRoutes />
+                  </Routes>
+                </section>
+                <aside class="w-full md:w-fit px-3">
+                  <Sidebar />
+                </aside>
+              </main>
+              <Footer />
+            </QueryClientProvider>
           </ErrorBoundary>
         </Suspense>
         <Scripts />
