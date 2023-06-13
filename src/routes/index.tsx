@@ -1,7 +1,7 @@
 import { createQuery } from "@tanstack/solid-query";
-import { fetchPosts } from "../utils/api";
+import { fetchPosts } from "~/utils/api";
 import { For, Suspense } from "solid-js";
-import PostItem from "../components/PostItem";
+import PostItem from "~/components/PostItem";
 
 export default function Home() {
   const posts = createQuery(() => ["posts"], fetchPosts);
